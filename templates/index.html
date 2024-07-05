@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TB QR Code Generator</title>
+</head>
+<body>
+    <h2>Let Tiep Bui generate a beautiful QR Code with Logo for your URL</h2>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="url">Enter your URL(*):</label>
+        <input type="text" id="url" name="url" required><br><br>
+        <label for="logo">Upload your logo:</label>
+        <input type="file" id="logo" name="logo"><br><br>
+        <input type="submit" value="Generate QR Code">
+    </form>
+    {% if qr_code %}
+    <h2>Your QR Code:</h2>
+    <img src="{{ qr_code }}" alt="QR Code"> <br><br>
+    <a href="{{ qr_code }}" download="qr_code.png">
+        <button type="button">Download QR Code</button>
+    </a>
+    {% endif %}
+</body>
+</html>
