@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main  # Thay đổi branch này nếu cần
+      - main
 
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
 
     - name: Ensure destination directory exists
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "mkdir -p ~/qrcode/tbqrcode"
+        ssh -t -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "mkdir -p ~/qrcode/tbqrcode"
 
     - name: Sync files via rsync
       run: |
@@ -28,7 +28,7 @@ jobs:
 
     - name: Stop Gunicorn if running
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
+        ssh -t -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
           if pgrep -f gunicorn; then
             sudo systemctl stop qrapp
             pkill -f gunicorn
@@ -37,7 +37,7 @@ jobs:
 
     - name: Install dependencies and restart service
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
+        ssh -t -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
           cd /home/ubuntu/qrcode/tbqrcode
           source venv/bin/activate
           pip install -r requirements.txt
@@ -47,4 +47,4 @@ jobs:
 
     - name: Debug - Check service status
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "sudo systemctl status qrapp"
+        ssh -t -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "sudo systemctl status qrapp"
