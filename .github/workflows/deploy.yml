@@ -21,7 +21,7 @@ jobs:
     - name: Copy files via SSH
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "rm -rf ~/qrcode/tbqrcode"
-        scp -r . ubuntu@52.221.201.230:~/qrcode/tbqrcode
+        scp -r * ubuntu@52.221.201.230:~/qrcode/tbqrcode
 
     - name: Install dependencies and restart service
       run: |
