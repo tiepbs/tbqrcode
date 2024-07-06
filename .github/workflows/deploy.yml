@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main
+      - main  # Thay đổi branch này nếu cần
 
 jobs:
   deploy:
@@ -38,8 +38,8 @@ jobs:
     - name: Install dependencies and restart service
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
-          source /home/ubuntu/qrcode/tbqrcode/venv/bin/activate
           cd /home/ubuntu/qrcode/tbqrcode
+          source venv/bin/activate
           pip install -r requirements.txt
           sudo systemctl daemon-reload
           sudo systemctl restart qrapp
