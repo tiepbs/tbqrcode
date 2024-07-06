@@ -18,6 +18,10 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Ensure destination directory exists
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "mkdir -p ~/qrcode/tbqrcode"
+
     - name: Clean up old deployment
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "rm -rf ~/qrcode/tbqrcode/*"
