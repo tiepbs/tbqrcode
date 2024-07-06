@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main  # Thay đổi branch này nếu cần
+      - main
 
 jobs:
   deploy:
@@ -32,6 +32,7 @@ jobs:
           source /home/ubuntu/qrcode/tbqrcode/venv/bin/activate
           cd /home/ubuntu/qrcode/tbqrcode
           pip install -r requirements.txt
+          sudo systemctl daemon-reload
           sudo systemctl restart qrapp
         EOF
 
