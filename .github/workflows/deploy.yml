@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main
+      - main  # Thay đổi branch này nếu cần
 
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
 
     - name: Create tarball of the code
       run: |
-        tar -czf code.tar.gz .
+        tar --warning=no-file-changed -czf code.tar.gz .
 
     - name: Ensure destination directory exists
       run: |
