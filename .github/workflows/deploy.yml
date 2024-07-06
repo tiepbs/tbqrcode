@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main  # Thay đổi branch này nếu cần
+      - main
 
 jobs:
   deploy:
@@ -18,21 +18,21 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Create tarball of the code
+      run: |
+        tar -czf code.tar.gz .
+
     - name: Ensure destination directory exists
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "mkdir -p ~/qrcode/tbqrcode"
 
-    - name: Clean up old deployment
+    - name: Copy tarball via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "rm -rf ~/qrcode/tbqrcode/*"
+        scp -r code.tar.gz ubuntu@52.221.201.230:~/qrcode/tbqrcode
 
-    - name: Copy files via SSH
+    - name: Extract tarball on the server
       run: |
-        scp -r ./* ubuntu@52.221.201.230:~/qrcode/tbqrcode
-
-    - name: Debug - List files on server
-      run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "ls -la ~/qrcode/tbqrcode"
+        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "tar -xzf ~/qrcode/tbqrcode/code.tar.gz -C ~/qrcode/tbqrcode"
 
     - name: Install dependencies and restart service
       run: |
