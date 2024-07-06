@@ -28,7 +28,11 @@ jobs:
 
     - name: Copy files via SSH
       run: |
-        scp -r * ubuntu@52.221.201.230:~/qrcode/tbqrcode
+        scp -r ./* ubuntu@52.221.201.230:~/qrcode/tbqrcode
+
+    - name: Debug - List files on server
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "ls -la ~/qrcode/tbqrcode"
 
     - name: Install dependencies and restart service
       run: |
@@ -38,3 +42,7 @@ jobs:
           pip install -r requirements.txt
           sudo systemctl restart qrapp
         EOF
+
+    - name: Debug - Check service status
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "sudo systemctl status qrapp"
