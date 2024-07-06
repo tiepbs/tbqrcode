@@ -3,7 +3,7 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - main  # Thay đổi branch này nếu cần
+      - main
 
 jobs:
   deploy:
@@ -30,6 +30,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
           if pgrep -f gunicorn; then
+            sudo systemctl stop qrapp
             pkill -f gunicorn
           fi
         EOF
