@@ -18,27 +18,19 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Create tarball of the code
-      run: |
-        tar --warning=no-file-changed -czf code.tar.gz .
-
     - name: Ensure destination directory exists
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "mkdir -p ~/qrcode/tbqrcode"
 
-    - name: Copy tarball via SSH
+    - name: Sync files via rsync
       run: |
-        scp -r code.tar.gz ubuntu@52.221.201.230:~/qrcode/tbqrcode
-
-    - name: Extract tarball on the server
-      run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 "tar -xzf ~/qrcode/tbqrcode/code.tar.gz -C ~/qrcode/tbqrcode"
+        rsync -avz --delete . ubuntu@52.221.201.230:/home/ubuntu/qrcode/tbqrcode
 
     - name: Install dependencies and restart service
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@52.221.201.230 << 'EOF'
-          source ~/qrcode/tbqrcode/venv/bin/activate
-          cd ~/qrcode/tbqrcode
+          source /home/ubuntu/qrcode/tbqrcode/venv/bin/activate
+          cd /home/ubuntu/qrcode/tbqrcode
           pip install -r requirements.txt
           sudo systemctl restart qrapp
         EOF
