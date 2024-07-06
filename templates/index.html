@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,5 +20,98 @@
         <button type="button">Download QR Code</button>
     </a>
     {% endif %}
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TB QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        form {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="file"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"],
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #45a049;
+        }
+        .qr-code {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Let Tiep Bui generate a beautiful QR Code with Logo for your URL</h2>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="url">Enter your URL (*):</label>
+            <input type="text" id="url" name="url" required><br><br>
+            <label for="logo">Upload your logo:</label>
+            <input type="file" id="logo" name="logo"><br><br>
+            <input type="submit" value="Generate QR Code">
+        </form>
+        {% if qr_code %}
+        <div class="qr-code">
+            <h2>Your QR Code:</h2>
+            <img src="{{ qr_code }}" alt="QR Code"><br><br>
+            <a href="{{ qr_code }}" download="qr_code.png">
+                <button type="button">Download QR Code</button>
+            </a>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
